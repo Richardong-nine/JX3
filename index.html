@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050607">
+  <meta name="description" content="剑网3 130级亲友纪念网站，记录共同走过的江湖与每一个角色。">
+  <title>剑网3 · 130级纪念</title>
+  <link rel="stylesheet" href="./css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#chapters">跳到人物章节</a>
+
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="preloader" aria-live="polite" aria-label="页面载入进度">
+    <div class="preloader__mark">壹叁零</div>
+    <div class="preloader__copy">
+      <span>正在载入这段江湖</span>
+      <strong data-loading-progress>0%</strong>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <a class="site-brand" href="#prologue" aria-label="返回开场">
+      <span>壹叁零</span>
+      <small>OUR JIANGHU / 130</small>
+    </a>
+    <nav class="chapter-nav" aria-label="章节导航">
+      <a href="#group-portrait">合影</a>
+      <a href="#chapters">故人录</a>
+      <a href="#epilogue">终章</a>
+    </nav>
+    <div class="page-progress" aria-hidden="true">
+      <span data-page-progress></span>
+    </div>
+  </header>
+
+  <aside class="scroll-index" aria-label="人物章节进度">
+    <ol class="scroll-index__list" data-chapter-progress></ol>
+    <p class="scroll-index__current"><span>当前人物</span><strong data-current-role>江湖序章</strong></p>
+  </aside>
+
+  <main>
+    <section class="prologue" id="prologue" aria-labelledby="memorial-title">
+      <div class="prologue__atmosphere" aria-hidden="true"></div>
+      <div class="prologue__copy">
+        <p class="kicker">JIAN WANG 3 / LEVEL MEMORIAL</p>
+        <h1 id="memorial-title"><span>剑网3</span><strong>130级纪念</strong></h1>
+        <p class="prologue__line">江湖路远，幸而同行。</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><span></span>向下，进入故人江湖</div>
+    </section>
+
+    <section class="group-portrait" id="group-portrait" aria-labelledby="group-title">
+      <div class="group-portrait__stage" data-group-portrait></div>
+      <div class="group-portrait__copy reveal">
+        <p class="chapter-index">PROLOGUE / TOGETHER</p>
+        <h2 id="group-title">这一帧，<br>留给所有人。</h2>
+        <p>从一百三十级回望，名字、门派与并肩走过的山河，都成为同一段记忆。</p>
+        <div class="group-portrait__count"><strong data-role-count>0</strong><span>个已收录江湖身份</span></div>
+      </div>
+    </section>
+
+    <div class="fate-line" aria-hidden="true">
+      <svg viewBox="0 0 40 1000" preserveAspectRatio="none" role="presentation">
+        <path class="fate-line__ghost" d="M20 0 C4 120 34 210 20 330 S5 520 20 650 S35 850 20 1000" />
+        <path class="fate-line__draw" data-fate-line d="M20 0 C4 120 34 210 20 330 S5 520 20 650 S35 850 20 1000" />
+        <g class="fate-line__seal">
+          <circle cx="20" cy="980" r="4" />
+          <circle cx="20" cy="980" r="8" />
+          <circle cx="20" cy="980" r="12" />
+        </g>
+      </svg>
+    </div>
+
+    <section class="chapters" id="chapters" aria-label="亲友角色纪念章节"></section>
+  </main>
+
+  <footer class="epilogue" id="epilogue">
+    <p class="chapter-index">EPILOGUE / NOT AN END</p>
+    <h2>山河仍在，<br>故人仍在。</h2>
+    <div class="epilogue__names" data-memorial-names aria-label="纪念角色名单"></div>
+    <p>一百三十级，不是故事的终点。</p>
+    <a class="return-link" href="#prologue">重新走过这段江湖 <span aria-hidden="true">↑</span></a>
+  </footer>
+
+  <noscript>
+    <div class="noscript-note">此纪念页需要 JavaScript 载入人物章节；你仍可以阅读开场与终章文字。</div>
+  </noscript>
+  <script defer src="./js/content.js"></script>
+  <script defer src="./js/render.js"></script>
+  <script defer src="./js/scroll.js"></script>
+  <script defer src="./js/app.js"></script>
+</body>
+</html>
