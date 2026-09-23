@@ -26,3 +26,21 @@ test('styles include mobile reconstruction and reduced-motion fallback', () => {
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
   assert.match(css, /\.chapter--couple[\s\S]*grid-template-columns/);
 });
+
+
+test('styles expose the etched jianghu texture system', () => {
+  for (const selector of [
+    '.jianghu-texture',
+    '.prologue__atmosphere::before',
+    '.group-portrait::before',
+    '.chapter-header::before',
+    '.role-visual::after',
+    '.chapter--couple .chapter-stage::before',
+    '.epilogue::after'
+  ]) assert.ok(css.includes(selector), `missing ${selector}`);
+
+  assert.match(css, /--texture-gold:/);
+  assert.match(css, /@keyframes\s+formation-breathe/);
+  assert.match(css, /@media\s*\(max-width:\s*760px\)[\s\S]*\.jianghu-texture/);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*formation-breathe/);
+});

@@ -677,3 +677,319 @@ h1 strong { display: block; margin-top: 18px; font: 400 clamp(54px, 10vw, 150px)
     transform: none;
   }
 }
+
+/* Jianghu etched texture system: formation rings, cartographic lines and metal frame marks */
+:root {
+  --texture-gold: rgb(168 140 89 / 16%);
+  --texture-paper: rgb(232 226 214 / 7%);
+  --texture-rust: rgb(181 43 45 / 18%);
+  --texture-grid: clamp(42px, 5vw, 76px);
+}
+
+.jianghu-texture {
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+  overflow: hidden;
+  opacity: .78;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.jianghu-texture::before,
+.jianghu-texture::after {
+  position: absolute;
+  content: "";
+}
+.jianghu-texture::before {
+  inset: -12%;
+  background:
+    linear-gradient(90deg, transparent calc(50% - .5px), rgb(232 226 214 / 3%) 50%, transparent calc(50% + .5px)),
+    linear-gradient(0deg, transparent calc(50% - .5px), rgb(232 226 214 / 2.5%) 50%, transparent calc(50% + .5px)),
+    repeating-linear-gradient(90deg, transparent 0 calc(var(--texture-grid) - 1px), rgb(232 226 214 / 1.8%) calc(var(--texture-grid) - 1px) var(--texture-grid)),
+    repeating-linear-gradient(0deg, transparent 0 calc(var(--texture-grid) - 1px), rgb(232 226 214 / 1.5%) calc(var(--texture-grid) - 1px) var(--texture-grid));
+  mask-image: radial-gradient(ellipse at center, #000 0 42%, transparent 82%);
+  transform: translate3d(0, calc(var(--page-progress, 0) * -32px), 0) rotate(-.4deg);
+  will-change: transform;
+}
+.jianghu-texture::after {
+  inset: 18px;
+  border: 1px solid rgb(168 140 89 / 8%);
+  background:
+    linear-gradient(135deg, var(--texture-gold) 0 1px, transparent 1px 18px) 0 0 / 72px 72px no-repeat,
+    linear-gradient(225deg, var(--texture-gold) 0 1px, transparent 1px 18px) 100% 0 / 72px 72px no-repeat,
+    linear-gradient(45deg, var(--texture-gold) 0 1px, transparent 1px 18px) 0 100% / 72px 72px no-repeat,
+    linear-gradient(315deg, var(--texture-gold) 0 1px, transparent 1px 18px) 100% 100% / 72px 72px no-repeat;
+  box-shadow: inset 0 0 0 5px rgb(5 6 7 / 10%), inset 0 0 90px rgb(5 6 7 / 42%);
+}
+
+.prologue__atmosphere::before,
+.prologue__atmosphere::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+  content: "";
+}
+.prologue__atmosphere::before {
+  width: min(78vw, 1040px);
+  aspect-ratio: 1;
+  background:
+    repeating-conic-gradient(from 7deg, transparent 0 8deg, rgb(168 140 89 / 10%) 8.2deg 8.45deg, transparent 8.7deg 15deg),
+    repeating-radial-gradient(circle, transparent 0 10.8%, rgb(232 226 214 / 5%) 11% 11.15%, transparent 11.4% 18%);
+  mask-image: radial-gradient(circle, transparent 0 16%, #000 16.5% 72%, transparent 84%);
+  opacity: .72;
+  transform: translate(-50%, calc(-50% + (var(--page-progress, 0) * -44px))) rotate(-7deg);
+}
+.prologue__atmosphere::after {
+  width: min(42vw, 540px);
+  aspect-ratio: 1;
+  border: 1px solid rgb(181 43 45 / 16%);
+  background:
+    linear-gradient(90deg, transparent calc(50% - .5px), rgb(181 43 45 / 24%) 50%, transparent calc(50% + .5px)),
+    linear-gradient(0deg, transparent calc(50% - .5px), rgb(181 43 45 / 18%) 50%, transparent calc(50% + .5px));
+  box-shadow: 0 0 80px rgb(168 140 89 / 5%), inset 0 0 65px rgb(168 140 89 / 4%);
+  opacity: .55;
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: formation-breathe 7s ease-in-out infinite;
+}
+.prologue__copy { position: relative; z-index: 2; }
+.prologue__copy::before {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: -1;
+  width: min(70vw, 760px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(168 140 89 / 24%) 18% 24%, transparent 24% 76%, rgb(168 140 89 / 24%) 76% 82%, transparent);
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.group-portrait { isolation: isolate; overflow: hidden; }
+.group-portrait::before {
+  position: absolute;
+  top: 50%;
+  left: clamp(-340px, -16vw, -120px);
+  z-index: -1;
+  width: min(72vw, 920px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle, transparent 0 7.8%, rgb(168 140 89 / 5%) 8% 8.2%, transparent 8.4% 13%),
+    conic-gradient(from 25deg, transparent, rgb(181 43 45 / 8%), transparent 19%, transparent 52%, rgb(168 140 89 / 8%), transparent 72%);
+  mask-image: radial-gradient(circle, transparent 0 17%, #000 18% 70%, transparent 86%);
+  content: "";
+  opacity: .7;
+  transform: translateY(-50%) rotate(calc(-12deg + (var(--page-progress, 0) * 8deg)));
+}
+.group-portrait::after {
+  position: absolute;
+  inset: 8% var(--gutter);
+  z-index: 4;
+  border: solid var(--texture-paper);
+  border-width: 1px 0;
+  background:
+    linear-gradient(90deg, var(--texture-gold), transparent 8%) top left / 24% 1px no-repeat,
+    linear-gradient(270deg, var(--texture-gold), transparent 8%) bottom right / 24% 1px no-repeat;
+  pointer-events: none;
+  content: "";
+}
+.group-portrait__stage { position: relative; }
+.group-portrait__stage::after {
+  position: absolute;
+  inset: 14px;
+  z-index: 8;
+  border: 1px solid rgb(232 226 214 / 7%);
+  background:
+    linear-gradient(90deg, var(--color-gold), var(--color-gold)) 0 0 / 38px 1px no-repeat,
+    linear-gradient(0deg, var(--color-gold), var(--color-gold)) 0 0 / 1px 38px no-repeat,
+    linear-gradient(270deg, var(--color-gold), var(--color-gold)) 100% 100% / 38px 1px no-repeat,
+    linear-gradient(180deg, var(--color-gold), var(--color-gold)) 100% 100% / 1px 38px no-repeat;
+  opacity: .4;
+  pointer-events: none;
+  content: "";
+}
+
+.chapter { overflow: clip; }
+.chapter::before {
+  background:
+    radial-gradient(circle at 68% 42%, rgb(83 105 112 / 10%), transparent 35%),
+    repeating-linear-gradient(117deg, transparent 0 44px, rgb(232 226 214 / 1.5%) 44px 45px, transparent 45px 92px),
+    linear-gradient(90deg, transparent 0 12%, rgb(168 140 89 / 3%) 12% 12.08%, transparent 12.08% 88%, rgb(168 140 89 / 3%) 88% 88.08%, transparent 88.08%),
+    linear-gradient(180deg, var(--color-abyss), #080d10 45%, var(--color-abyss));
+}
+.chapter-header::before {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: clamp(70px, 12vw, 170px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-rust), transparent);
+  box-shadow: 0 0 12px rgb(181 43 45 / 18%);
+  content: "";
+}
+.chapter-header::after {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  width: 46px;
+  height: 9px;
+  border-inline: 1px solid rgb(168 140 89 / 35%);
+  background: repeating-linear-gradient(90deg, transparent 0 6px, rgb(168 140 89 / 24%) 6px 7px);
+  content: "";
+}
+.chapter.is-current .chapter-header::before { box-shadow: 0 0 18px rgb(181 43 45 / 38%); }
+
+.role-visual::after {
+  position: absolute;
+  inset: 12px;
+  z-index: 5;
+  border: 1px solid rgb(232 226 214 / 6%);
+  background:
+    linear-gradient(90deg, var(--texture-gold), var(--texture-gold)) 0 0 / 48px 1px no-repeat,
+    linear-gradient(0deg, var(--texture-gold), var(--texture-gold)) 0 0 / 1px 48px no-repeat,
+    linear-gradient(270deg, var(--texture-gold), var(--texture-gold)) 100% 0 / 48px 1px no-repeat,
+    linear-gradient(0deg, var(--texture-gold), var(--texture-gold)) 100% 0 / 1px 48px no-repeat,
+    linear-gradient(90deg, var(--texture-rust), var(--texture-rust)) 0 100% / 32px 1px no-repeat,
+    linear-gradient(180deg, var(--texture-rust), var(--texture-rust)) 0 100% / 1px 32px no-repeat,
+    linear-gradient(270deg, var(--texture-rust), var(--texture-rust)) 100% 100% / 32px 1px no-repeat,
+    linear-gradient(180deg, var(--texture-rust), var(--texture-rust)) 100% 100% / 1px 32px no-repeat;
+  opacity: .64;
+  pointer-events: none;
+  content: "";
+}
+.role-visual__name-wrap::before {
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin-bottom: 15px;
+  border-inline: 1px solid rgb(168 140 89 / 55%);
+  background: repeating-linear-gradient(90deg, rgb(168 140 89 / 45%) 0 1px, transparent 1px 8px);
+  content: "";
+}
+.role-copy::before {
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, var(--color-rust), transparent);
+  content: "";
+}
+.chapter--single:nth-child(even) .role-copy::before { margin-left: auto; background: linear-gradient(270deg, var(--color-rust), transparent); }
+
+.chapter--multi .chapter-stage::before {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  width: min(58vw, 720px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 45deg, transparent 0 20deg, rgb(168 140 89 / 4%) 20.2deg 20.5deg, transparent 20.8deg 45deg);
+  mask-image: radial-gradient(circle, transparent 0 38%, #000 39% 40%, transparent 41% 52%, #000 53% 54%, transparent 55%);
+  pointer-events: none;
+  content: "";
+  opacity: calc(.26 + (var(--chapter-progress, 0) * .32));
+  transform: translate(-50%, -50%) rotate(12deg);
+}
+
+.chapter--couple .chapter-stage::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(72vw, 920px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 45deg, transparent 0 13deg, rgb(168 140 89 / 8%) 13.2deg 13.45deg, transparent 13.7deg 30deg),
+    repeating-radial-gradient(circle, transparent 0 13%, rgb(232 226 214 / 4%) 13.2% 13.35%, transparent 13.6% 22%);
+  mask-image: radial-gradient(circle, transparent 0 19%, #000 19.5% 73%, transparent 86%);
+  pointer-events: none;
+  content: "";
+  opacity: calc(.38 + (var(--chapter-progress, 0) * .3));
+  transform: translate(-50%, -50%) rotate(calc(-8deg + (var(--chapter-progress, 0) * 12deg)));
+}
+.chapter--couple .chapter-stage::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 64px;
+  aspect-ratio: 1;
+  border: 1px solid rgb(181 43 45 / 40%);
+  box-shadow: 0 0 0 7px rgb(5 6 7), 0 0 0 8px rgb(168 140 89 / 18%), 0 0 34px rgb(181 43 45 / 14%);
+  pointer-events: none;
+  content: "";
+  opacity: .7;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.chapter--couple .couple-role[data-side="left"] .role-visual::after { border-right-color: rgb(181 43 45 / 22%); }
+.chapter--couple .couple-role[data-side="right"] .role-visual::after { border-left-color: rgb(181 43 45 / 22%); }
+
+.epilogue { isolation: isolate; overflow: hidden; }
+.epilogue::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: min(76vw, 880px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from -10deg, transparent 0 11deg, rgb(168 140 89 / 7%) 11.2deg 11.4deg, transparent 11.7deg 24deg),
+    repeating-radial-gradient(circle, transparent 0 9%, rgb(232 226 214 / 3.5%) 9.2% 9.35%, transparent 9.6% 17%);
+  mask-image: radial-gradient(circle, transparent 0 23%, #000 24% 70%, transparent 84%);
+  pointer-events: none;
+  content: "";
+  opacity: .72;
+  transform: translate(-50%, -50%) rotate(9deg);
+  animation: formation-breathe 9s ease-in-out infinite reverse;
+}
+.epilogue__names { position: relative; }
+.epilogue__names::before,
+.epilogue__names::after {
+  display: block;
+  flex: 1 0 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(168 140 89 / 28%), transparent);
+  content: "";
+}
+
+@keyframes formation-breathe {
+  0%, 100% { opacity: .38; filter: drop-shadow(0 0 0 rgb(168 140 89 / 0%)); }
+  50% { opacity: .7; filter: drop-shadow(0 0 18px rgb(168 140 89 / 14%)); }
+}
+
+@media (max-width: 760px) {
+  :root { --texture-grid: 52px; }
+  .jianghu-texture { opacity: .48; }
+  .jianghu-texture::before {
+    inset: -20%;
+    mask-image: linear-gradient(#000, transparent 68%);
+  }
+  .jianghu-texture::after { inset: 9px; border-color: rgb(168 140 89 / 5%); }
+  .prologue__atmosphere::before { width: 150vw; opacity: .42; }
+  .prologue__atmosphere::after { width: 78vw; opacity: .38; }
+  .group-portrait::before { left: -72vw; width: 150vw; opacity: .42; }
+  .group-portrait::after { inset: 5% 20px; opacity: .55; }
+  .group-portrait__stage::after,
+  .role-visual::after { inset: 8px; }
+  .chapter::before {
+    background:
+      repeating-linear-gradient(117deg, transparent 0 64px, rgb(232 226 214 / 1.2%) 64px 65px, transparent 65px 128px),
+      linear-gradient(180deg, var(--color-abyss), #080d10 45%, var(--color-abyss));
+  }
+  .chapter-header::after { display: none; }
+  .chapter--multi .chapter-stage::before { width: 126vw; opacity: .22; }
+  .chapter--couple .chapter-stage::before { top: 42%; width: 158vw; opacity: .28; }
+  .chapter--couple .chapter-stage::after { top: 42%; width: 42px; }
+  .epilogue::after { width: 150vw; opacity: .44; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prologue__atmosphere::after,
+  .epilogue::after { animation-name: formation-breathe; animation-play-state: paused; }
+  .jianghu-texture::before { transform: none; }
+  .prologue__atmosphere::before { transform: translate(-50%, -50%) rotate(-7deg); }
+  .group-portrait::before { transform: translateY(-50%) rotate(-12deg); }
+  .chapter--couple .chapter-stage::before { transform: translate(-50%, -50%) rotate(-8deg); }
+}
