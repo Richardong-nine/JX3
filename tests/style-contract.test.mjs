@@ -59,4 +59,8 @@ test('styles implement scroll-driven jianghu echo silhouettes with safe fallback
   assert.match(css, /@media\s*\(max-width:\s*760px\)[\s\S]*\.role-echo--ink\s*\{[^}]*display:\s*none/s);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*\.role-echo[\s\S]*display:\s*none/s);
   assert.match(css, /--role-image-opacity:/);
+
+  const echoSection = css.split('/* Jianghu residual silhouettes: scroll-driven ink and vermilion echoes */')[1] || '';
+  assert.match(echoSection, /\.chapter\s*\{[^}]*--echo-ink-x:/s);
+  assert.doesNotMatch(echoSection, /\.role-visual\s*\{[^}]*--echo-ink-x:/s);
 });
