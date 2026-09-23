@@ -27,7 +27,14 @@ function renderRole(role, { index = 0, total = 1, side = '', stepClass = 'role-s
   return `
     <article class="${stepClass}" data-role-id="${escapeHtml(role.id)}" data-role-index="${index}"${sideAttr}>
       <div class="${visualClass}" style="--object-position: ${escapeHtml(imagePosition(image.position))}">
+        <div class="role-echo role-echo--ink" aria-hidden="true">
+          <img class="role-echo__image" src="${escapeHtml(image.src)}" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="role-echo role-echo--vermilion" aria-hidden="true">
+          <img class="role-echo__image" src="${escapeHtml(image.src)}" alt="" loading="lazy" decoding="async">
+        </div>
         <img class="role-visual__image" src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt || role.name)}" loading="lazy" decoding="async">
+        <div class="role-visual__scan" aria-hidden="true"></div>
         <div class="role-visual__veil" aria-hidden="true"></div>
         <div class="role-visual__name-wrap">
           <span class="role-progress">${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>

@@ -23,6 +23,16 @@ test('single chapter overlays the role name on its visual stage', () => {
   assert.match(html, /角色一 的角色简介/);
 });
 
+test('each role renders two accessible decorative echo layers', () => {
+  const html = renderChapter({ id: 'echo', type: 'single', label: '残影', people: [{ id: 'p1', roles: [role('r1', '角色一')] }] }, 0);
+  assert.equal((html.match(/class="role-echo role-echo--ink"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="role-echo role-echo--vermilion"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="role-visual__image"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="role-echo[^"]*" aria-hidden="true"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="role-echo__image"[^>]*alt=""/g) ?? []).length, 2);
+  assert.match(html, /class="role-visual__scan" aria-hidden="true"/);
+});
+
 test('multi chapter exposes scroll steps and role count', () => {
   const html = renderChapter({ id: 'many', type: 'multi', label: '故人录', people: [{ id: 'p1', roles: [role('r1', '一'), role('r2', '二')] }] }, 1);
   assert.equal((html.match(/class="role-step"/g) ?? []).length, 2);

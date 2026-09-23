@@ -44,3 +44,19 @@ test('styles expose the etched jianghu texture system', () => {
   assert.match(css, /@media\s*\(max-width:\s*760px\)[\s\S]*\.jianghu-texture/);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*formation-breathe/);
 });
+
+
+test('styles implement scroll-driven jianghu echo silhouettes with safe fallbacks', () => {
+  for (const selector of [
+    '.role-echo--ink',
+    '.role-echo--vermilion',
+    '.role-visual__scan',
+    '.chapter--couple .couple-role[data-side="left"]',
+    '.chapter--couple .couple-role[data-side="right"]'
+  ]) assert.ok(css.includes(selector), `missing ${selector}`);
+
+  assert.match(css, /\.role-echo\s*\{[^}]*mix-blend-mode:\s*screen/s);
+  assert.match(css, /@media\s*\(max-width:\s*760px\)[\s\S]*\.role-echo--ink\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*\.role-echo[\s\S]*display:\s*none/s);
+  assert.match(css, /--role-image-opacity:/);
+});

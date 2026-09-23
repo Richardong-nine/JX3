@@ -19,6 +19,13 @@ function getActiveStepIndex(progress, count) {
   return Math.min(safeCount - 1, Math.floor(clamp01(progress) * safeCount));
 }
 
+function getStepProgress(progress, count) {
+  const safeCount = Math.max(1, Math.floor(Number(count) || 1));
+  const scaled = clamp01(progress) * safeCount;
+  if (scaled >= safeCount) return 1;
+  return scaled - Math.floor(scaled);
+}
+
 function getPageProgress(scrollY, scrollHeight, viewportHeight) {
   const travel = Number(scrollHeight) - Number(viewportHeight);
   if (!Number.isFinite(travel) || travel <= 0) return 0;
@@ -102,7 +109,7 @@ function createScrollController({ root = document, view = window } = {}) {
       const activeStep = getActiveStepIndex(progress, stepCount);
       const containsFocus = top <= focusY && top + height > focusY;
       const distance = containsFocus ? 0 : Math.min(Math.abs(focusY - top), Math.abs(focusY - (top + height)));
-      return { chapter, top, height, progress, activeStep, distance, containsFocus };
+      return { chapter, top, height, progress, activeStep, stepCount, distance, containsFocus };
     });
 
     const active = measurements.reduce((best, item) => {
@@ -119,7 +126,28 @@ function createScrollController({ root = document, view = window } = {}) {
     }
 
     measurements.forEach((item) => {
+      const roleProgress = reduceMotion ? 1 : getStepProgress(item.progress, item.stepCount);
+      const converge = clamp01((roleProgress - 0.04) / 0.64);
+      const spread = 1 - converge;
+      const inkFade = 1 - clamp01((roleProgress - 0.7) / 0.3);
+      const vermilionIn = clamp01((roleProgress - 0.12) / 0.18);
+      const vermilionFade = 1 - clamp01((roleProgress - 0.76) / 0.24);
+      const reveal = clamp01((roleProgress - 0.05) / 0.58);
+      const scanTravel = clamp01((roleProgress - 0.54) / 0.34);
+      const scanOpacity = roleProgress >= 0.54 && roleProgress <= 0.9
+        ? Math.sin(scanTravel * Math.PI) * 0.72
+        : 0;
+
       item.chapter.style.setProperty('--chapter-progress', item.progress.toFixed(4));
+      item.chapter.style.setProperty('--role-progress', roleProgress.toFixed(4));
+      item.chapter.style.setProperty('--echo-ink-x', `${(-42 * spread).toFixed(2)}px`);
+      item.chapter.style.setProperty('--echo-red-x', `${(48 * spread).toFixed(2)}px`);
+      item.chapter.style.setProperty('--echo-ink-opacity', (0.58 * inkFade).toFixed(3));
+      item.chapter.style.setProperty('--echo-red-opacity', (0.5 * vermilionIn * vermilionFade).toFixed(3));
+      item.chapter.style.setProperty('--role-image-opacity', (0.18 + 0.82 * reveal).toFixed(3));
+      item.chapter.style.setProperty('--role-mask', `${(18 * spread).toFixed(2)}%`);
+      item.chapter.style.setProperty('--scan-y', `${(18 + 66 * scanTravel).toFixed(2)}%`);
+      item.chapter.style.setProperty('--scan-opacity', scanOpacity.toFixed(3));
       item.chapter.dataset.activeRole = String(item.activeStep);
       item.chapter.classList.toggle('is-current', item.chapter === active?.chapter);
     });
@@ -182,5 +210,5 @@ function createScrollController({ root = document, view = window } = {}) {
   };
 }
 
-globalThis.JX3Scroll = Object.freeze({ clamp01, getSectionProgress, getActiveStepIndex, getPageProgress, createScrollController });
+globalThis.JX3Scroll = Object.freeze({ clamp01, getSectionProgress, getActiveStepIndex, getStepProgress, getPageProgress, createScrollController });
 })();

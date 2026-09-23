@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 await import('../js/scroll.js');
-const { clamp01, getSectionProgress, getActiveStepIndex, getPageProgress } = globalThis.JX3Scroll;
+const { clamp01, getSectionProgress, getActiveStepIndex, getStepProgress, getPageProgress } = globalThis.JX3Scroll;
 
 test('clamp01 bounds progress', () => {
   assert.equal(clamp01(-1), 0);
@@ -20,6 +20,15 @@ test('active step never exceeds available steps', () => {
   assert.equal(getActiveStepIndex(0.999, 10), 9);
   assert.equal(getActiveStepIndex(1, 10), 9);
   assert.equal(getActiveStepIndex(0.5, 0), 0);
+});
+
+test('step progress restarts for each role and completes at chapter end', () => {
+  assert.equal(getStepProgress(0, 1), 0);
+  assert.equal(getStepProgress(0.5, 1), 0.5);
+  assert.equal(getStepProgress(1, 1), 1);
+  assert.equal(getStepProgress(0.25, 2), 0.5);
+  assert.equal(getStepProgress(0.5, 2), 0);
+  assert.equal(getStepProgress(1, 2), 1);
 });
 
 test('page progress is safe for short and scrollable pages', () => {

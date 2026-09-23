@@ -993,3 +993,93 @@ h1 strong { display: block; margin-top: 18px; font: 400 clamp(54px, 10vw, 150px)
   .group-portrait::before { transform: translateY(-50%) rotate(-12deg); }
   .chapter--couple .chapter-stage::before { transform: translate(-50%, -50%) rotate(-8deg); }
 }
+
+/* Jianghu residual silhouettes: scroll-driven ink and vermilion echoes */
+.role-visual {
+  --echo-ink-x: 0px;
+  --echo-red-x: 0px;
+  --echo-ink-opacity: 0;
+  --echo-red-opacity: 0;
+  --role-image-opacity: 1;
+  --role-mask: 0%;
+  --scan-y: 50%;
+  --scan-opacity: 0;
+}
+.role-echo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  will-change: opacity, transform;
+}
+.role-echo__image {
+  width: 100%;
+  height: min(82svh, 880px);
+  object-fit: contain;
+  object-position: var(--object-position);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+}
+.role-echo--ink {
+  opacity: var(--echo-ink-opacity);
+  transform: translate3d(var(--echo-ink-x), 2px, 0) scale(1.018);
+}
+.role-echo--ink .role-echo__image {
+  filter: grayscale(1) sepia(.18) saturate(.35) brightness(.34) contrast(1.7);
+}
+.role-echo--vermilion {
+  opacity: var(--echo-red-opacity);
+  transform: translate3d(var(--echo-red-x), -2px, 0) scale(1.01);
+}
+.role-echo--vermilion .role-echo__image {
+  filter: grayscale(1) sepia(1) saturate(7) hue-rotate(318deg) brightness(.42) contrast(1.52);
+}
+.js .role-visual__image {
+  z-index: 2;
+  opacity: var(--role-image-opacity);
+  clip-path: inset(0 var(--role-mask) 0 var(--role-mask));
+  will-change: opacity, clip-path;
+}
+.role-visual__scan {
+  position: absolute;
+  inset: var(--scan-y) 8% auto;
+  z-index: 3;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(168 140 89 / 18%) 20%, rgb(232 226 214 / 72%) 50%, rgb(168 140 89 / 18%) 80%, transparent);
+  box-shadow: 0 0 12px rgb(168 140 89 / 24%);
+  opacity: var(--scan-opacity);
+  pointer-events: none;
+  transform: translateY(-50%);
+  will-change: top, opacity;
+}
+.role-visual__veil { z-index: 4; }
+.role-visual::after { z-index: 5; }
+.role-visual__name-wrap { z-index: 6; }
+
+.chapter--couple .role-echo__image { height: min(68svh, 720px); }
+.chapter--couple .couple-role[data-side="left"] .role-echo--ink,
+.chapter--couple .couple-role[data-side="left"] .role-echo--vermilion {
+  transform: translate3d(var(--echo-ink-x), 1px, 0) scale(1.014);
+}
+.chapter--couple .couple-role[data-side="right"] .role-echo--ink,
+.chapter--couple .couple-role[data-side="right"] .role-echo--vermilion {
+  transform: translate3d(var(--echo-red-x), -1px, 0) scale(1.014);
+}
+
+@media (max-width: 760px) {
+  .role-echo__image { height: min(68svh, 620px); }
+  .role-echo--ink { display: none; }
+  .role-echo--vermilion { opacity: calc(var(--echo-red-opacity) * .72); }
+  .chapter--couple .role-echo__image { height: min(62svh, 560px); }
+  .role-visual__scan { inset-inline: 13%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .role-echo,
+  .role-visual__scan { display: none; }
+  .js .role-visual__image {
+    opacity: 1;
+    clip-path: none;
+  }
+}
